@@ -33,7 +33,7 @@ services:
     image: mysql:8.0
     container_name: mysql-container
     environment:
-      MYSQL_DATABASE: chat_system
+      MYSQL_DATABASE: chat_system_v2
       MYSQL_USER: chat_user
       MYSQL_PASSWORD: chat_password
       MYSQL_ROOT_PASSWORD: root
