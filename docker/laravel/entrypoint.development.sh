@@ -3,8 +3,8 @@ set -e
 
 composer install
 wait $!
-npm install
-wait $!
+# npm install
+# wait $!
 php artisan key:generate
 wait $!
 php artisan migrate
