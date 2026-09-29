@@ -14,6 +14,7 @@ import Navbar from "@/components/includes/Navbar.vue";
 import LeftSidebar from "@/components/includes/LeftSidebar.vue";
 import RightSidebar from "@/components/includes/RightSidebar.vue";
 import Footer from "@/components/includes/Footer.vue";
+import LoginLogs from '@/components/pages/LoginLogs.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -85,6 +86,20 @@ const router = createRouter({
       },
       meta: { guarded: true },
     },
+
+        {
+      path: '/login-logs',
+      name: 'login-logs',
+      components: {
+        default: LoginLogs,
+        navbar: Navbar,
+        left_sidebar: LeftSidebar,
+        right_sidebar: RightSidebar,
+        footer: Footer,
+      },
+      meta: { guarded: true },
+    },
+    
     {
       path: '/:pathMatch(.*)*',
       redirect: '/dashboard',

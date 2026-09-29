@@ -44,6 +44,12 @@ class GoogleOAuthController extends Controller
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
         }
+         \App\Models\LoginLog::create([
+            'user_id' => $user->id,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'logged_in_at' => now(),
+        ]);
 
         $token = $user->createToken('auth_token', ['exchange-new-token'], now()->addMinute())->plainTextToken;
 

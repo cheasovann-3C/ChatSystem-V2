@@ -44,3 +44,7 @@ export async function apiUpdateProfileImage(image) {
 export async function apiDeleteProfileImage() {
   return await axios.delete(APP_API_URL + '/delete/profile-image');
 }
+
+export async function apiGetLoginLogs() {
+  return await axios.get(APP_API_URL + '/login-logs');
+}

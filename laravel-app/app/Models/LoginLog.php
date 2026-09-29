@@ -10,7 +10,12 @@ class LoginLog extends Model
         'user_id',
         'ip_address',
         'user_agent',
+        'login_method',
         'logged_in_at',
+    ];
+
+    protected $casts = [
+        'logged_in_at' => 'datetime',
     ];
 
     public function user()

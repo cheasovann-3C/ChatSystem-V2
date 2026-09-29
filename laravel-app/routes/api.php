@@ -27,3 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/update/profile-image', [AuthController::class, 'updateProfileImage']);
     Route::delete('/delete/profile-image', [AuthController::class, 'deleteProfileImage']);
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/signout', [AuthController::class, 'signout']);
+    Route::get('/verify', [AuthController::class, 'verify']);
+    Route::get('/login-logs', [AuthController::class, 'loginLogs']);
+});

@@ -57,13 +57,21 @@ class AuthController extends Controller
     $token = $user->createToken('auth_token')->plainTextToken;
 
     // ↓↓↓ THIS is the audit log line — it must be here ↓↓↓
-    \App\Models\LoginLog::create([
-        'user_id' => $user->id,
-        'ip_address' => $request->ip(),
-        'user_agent' => $request->userAgent(),
-        'logged_in_at' => now(),
-    ]);
-    // ↑↑↑
+        \App\Models\LoginLog::create([
+            'user_id' => $user->id,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'login_method' => 'Email',
+            'logged_in_at' => now(),
+        ]);
+
+            \App\Models\LoginLog::create([
+            'user_id' => $user->id,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'login_method' => 'Google',
+            'logged_in_at' => now(),
+        ]);
 
     return response([
         'message' => 'User signed in.',
@@ -265,4 +273,18 @@ class AuthController extends Controller
             'message' => 'User profile image deleted successfully.',
         ], 200);
     }
+    
+
+        function loginLogs(Request $request)
+    {
+        $logs = \App\Models\LoginLog::where('user_id', $request->user()->id)
+            ->latest('logged_in_at')
+            ->get();
+
+        return response([
+            'message' => 'Login logs retrieved.',
+            'logs' => $logs,
+        ], 200);
+    }
 }
+

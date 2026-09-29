@@ -44,11 +44,11 @@
 
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
-            <router-link :to="{ name: 'dashboard' }" active-class="active" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+                   <li class="nav-item">
+            <router-link :to="{ name: 'login-logs' }" active-class="active" class="nav-link">
+              <i class="nav-icon fas fa-history"></i>
               <p>
-                Dashboard
+                Login Activity
               </p>
             </router-link>
           </li>
