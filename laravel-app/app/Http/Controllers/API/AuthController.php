@@ -39,29 +39,38 @@ class AuthController extends Controller
     }
 
     function signin(SigninRequest $request)
-    {
-        $user = User::where('email', $request->email)->first();
+{
+    $user = User::where('email', $request->email)->first();
 
-        if (!$user->hasVerifiedEmail()) {
-            throw ValidationException::withMessages([
-                'email' => 'Email is not verified.',
-            ]);
-        }
-
-        if (!Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'password' => 'Password does not match.',
-            ]);
-        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response([
-            'message' => 'User signed in.',
-            'user' => new UserResource($user),
-            'token' => $token
-        ], 200);
+    if (!$user->hasVerifiedEmail()) {
+        throw ValidationException::withMessages([
+            'email' => 'Email is not verified.',
+        ]);
     }
+
+    if (!Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'password' => 'Password does not match.',
+        ]);
+    }
+
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    // ↓↓↓ THIS is the audit log line — it must be here ↓↓↓
+    \App\Models\LoginLog::create([
+        'user_id' => $user->id,
+        'ip_address' => $request->ip(),
+        'user_agent' => $request->userAgent(),
+        'logged_in_at' => now(),
+    ]);
+    // ↑↑↑
+
+    return response([
+        'message' => 'User signed in.',
+        'user' => new UserResource($user),
+        'token' => $token
+    ], 200);
+}
 
     function signout(Request $request)
     {
